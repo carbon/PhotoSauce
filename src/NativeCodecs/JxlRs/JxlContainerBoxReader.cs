@@ -1,4 +1,4 @@
-// Copyright ? Clinton Ingram and Contributors
+// Copyright © Clinton Ingram and Contributors
 // SPDX-License-Identifier: MIT
 
 using System;
