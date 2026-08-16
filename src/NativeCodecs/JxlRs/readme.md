@@ -21,4 +21,4 @@ CodecManager.Configure(codecs => {
 });
 ```
 
-Once registered, MagicScaler automatically detects and decodes JPEG XL codestreams and container files. Still images, animation frames, orientation, output ICC profiles, and uncompressed JPEG XL `Exif` boxes are supported. EXIF bytes are copied directly from the source stream only when requested; they are not cached by the plugin. Brotli-compressed `brob` metadata boxes are not currently exposed.
+Once registered, MagicScaler automatically detects and decodes JPEG XL codestreams and container files. Still images, animation frames, orientation, output ICC profiles, and JPEG XL `Exif` boxes are supported. EXIF bytes are read from the source stream only when requested; they are not cached by the plugin. On .NET 8 or later, `Exif` boxes wrapped in Brotli-compressed `brob` boxes are decoded incrementally with bounded buffers. The .NET Framework 4.7.2 target exposes uncompressed `Exif` boxes only.
