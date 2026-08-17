@@ -189,7 +189,7 @@ int PngWriteIhdr(ps_png_struct* handle, png_uint_32 width, png_uint_32 height, i
 }
 
 int PngWriteIccp(ps_png_struct* handle, png_const_bytep profile) {
-	TRY png_write_iCCP(handle->png_ptr, "ICC", profile);
+	TRY png_write_iCCP(handle->png_ptr, "ICC", profile, png_get_uint_32(profile));
 	return TRY_RESULT;
 }
 
