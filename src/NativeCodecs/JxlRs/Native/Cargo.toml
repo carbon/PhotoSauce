@@ -1,6 +1,6 @@
 [package]
 name = "photosauce-jxlrs"
-version = "0.5.1"
+version = "0.6.0"
 edition = "2024"
 license = "MIT"
 publish = false
@@ -10,7 +10,8 @@ name = "jxlrs"
 crate-type = ["cdylib"]
 
 [dependencies]
-jxl = { version = "=0.5.1", default-features = true }
+jxl = { version = "=0.6.0", default-features = true }
+rayon = "1.12.0"
 
 [profile.release]
 lto = "thin"

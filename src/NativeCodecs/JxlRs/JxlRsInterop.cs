@@ -46,7 +46,13 @@ internal static unsafe class JxlRsNative
 	public static extern nint jxlrs_inspect(byte* data, nuint length, JxlRsImageInfo* info);
 
 	[DllImport(LibraryName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+	public static extern nint jxlrs_inspect_with_options(byte* data, nuint length, JxlRsImageInfo* info, uint parallelism);
+
+	[DllImport(LibraryName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
 	public static extern nint jxlrs_inspect_stream(JxlRsStream* stream, JxlRsImageInfo* info);
+
+	[DllImport(LibraryName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+	public static extern nint jxlrs_inspect_stream_with_options(JxlRsStream* stream, JxlRsImageInfo* info, uint parallelism);
 
 	[DllImport(LibraryName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
 	[return: MarshalAs(UnmanagedType.I1)]

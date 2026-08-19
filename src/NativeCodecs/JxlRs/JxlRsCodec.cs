@@ -11,8 +11,8 @@ namespace PhotoSauce.NativeCodecs.JxlRs;
 
 internal static class JxlRsFactory
 {
-	public const string DisplayName = "jxl-rs 0.5.1";
-	private const uint NativeVersion = 501;
+	public const string DisplayName = "jxl-rs 0.6.0";
+	private const uint NativeVersion = 600;
 
 	private static readonly Lazy<bool> dependencyValid = new(() => {
 		uint version = JxlRsNative.jxlrs_version();

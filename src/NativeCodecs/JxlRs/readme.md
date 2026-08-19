@@ -7,6 +7,8 @@ The project builds a small native bridge with Cargo and copies the resulting pla
 
 Contiguous `MemoryStream`, `UnmanagedMemoryStream`, and `ReadOnlySpan<byte>` inputs are read in place. Other seekable `Stream` implementations are consumed incrementally through a bounded native buffer, without copying the complete encoded input. Opening a still JPEG XL image exposes only bounded metadata chunks, stops after image/ICC metadata, and retains the primed decoder state for the first `CopyPixels` call. Animated images additionally scan visible frame locations but still defer pixel rendering. The first full-frame request decodes BGR/BGRA pixels directly into the caller's buffer. Partial or repeated requests decode into one pooled frame cache that is reused for subsequent reads from that frame. Animation frames are decoded on demand using jxl-rs frame seek targets rather than being retained simultaneously.
 
+Decoding is single-threaded by default. Set <code>ProcessImageSettings.DecoderOptions</code> to a <code>JxlRsDecoderOptions</code> with <code>MaxDegreeOfParallelism</code> greater than 1 to cap the number of workers used by one image, or use 0 to let the shared worker pool select the available processor count automatically. For example, <code>new JxlRsDecoderOptions(Range.All, 8)</code> allows up to eight workers.
+
 Usage
 -----
 

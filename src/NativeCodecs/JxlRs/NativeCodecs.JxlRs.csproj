@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>0.5.1</VersionPrefix>
+		<VersionPrefix>0.6.0</VersionPrefix>
 		<TargetFrameworks>net8.0;net472</TargetFrameworks>
 		<JxlRsNativeManifest>$(MSBuildProjectDirectory)\Native\Cargo.toml</JxlRsNativeManifest>
 		<JxlRsNativeProfile Condition="'$(Configuration)'=='Debug'">debug</JxlRsNativeProfile>

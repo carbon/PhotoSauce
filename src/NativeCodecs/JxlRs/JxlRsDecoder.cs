@@ -149,6 +149,11 @@ internal sealed unsafe class JxlRsContainer : IImageContainer, IMetadataSource, 
 		if (isContainer)
 			JxlContainerBoxReader.TryFindExif(imageStream, start, out exif);
 
+		int maxDegreeOfParallelism = options is JxlRsDecoderOptions jxlOptions ? jxlOptions.MaxDegreeOfParallelism : 1;
+		if (maxDegreeOfParallelism < 0)
+			throw new ArgumentOutOfRangeException(nameof(JxlRsDecoderOptions.MaxDegreeOfParallelism), "The maximum degree of parallelism must not be negative.");
+		uint parallelism = (uint)maxDegreeOfParallelism;
+
 		JxlRsFactory.EnsureDependency();
 
 		JxlRsImageInfo info;
@@ -158,20 +163,20 @@ internal sealed unsafe class JxlRsContainer : IImageContainer, IMetadataSource, 
 			if (imageStream is UnmanagedMemoryStream unmanaged)
 			{
 				unmanaged.Position = start;
-				handle = JxlRsNative.jxlrs_inspect(unmanaged.PositionPointer, checked((nuint)(unmanaged.Length - start)), &info);
+				handle = JxlRsNative.jxlrs_inspect_with_options(unmanaged.PositionPointer, checked((nuint)(unmanaged.Length - start)), &info, parallelism);
 			}
 			else if (imageStream is MemoryStream memory && memory.TryGetBuffer(out var segment))
 			{
 				int offset = checked(segment.Offset + (int)start);
 				int length = checked((int)(memory.Length - start));
 				fixed (byte* data = segment.Array)
-					handle = JxlRsNative.jxlrs_inspect(data + offset, (nuint)length, &info);
+					handle = JxlRsNative.jxlrs_inspect_with_options(data + offset, (nuint)length, &info, parallelism);
 			}
 			else
 			{
 				using var callbacks = new StreamCallbackScope(imageStream);
 				var nativeStream = callbacks.Native;
-				handle = JxlRsNative.jxlrs_inspect_stream(&nativeStream, &info);
+				handle = JxlRsNative.jxlrs_inspect_stream_with_options(&nativeStream, &info, parallelism);
 				callbacks.ThrowIfFailed();
 			}
 		}
